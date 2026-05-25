@@ -1,13 +1,67 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ベースカラー */
+  --color-bg: #f5f5f5; /* ページ背景（明るいグレー） */
+  --color-surface: #ffffff; /* カード・モーダル・サイドバー背景 */
+  --color-surface-2: #efefef; /* ホバー時・セカンダリ背景 */
+  --color-border: #e0e0e0; /* ボーダー・区切り線 */
+  /* テキストカラー */
+  --color-text-primary: #1a1a1a; /* メインテキスト */
+  --color-text-secondary: #757575; /* サブテキスト・プレースホルダー */
+  --color-text-disabled: #bdbdbd; /* 無効状態のテキスト */
+  /* アクセントカラー（オレンジ系） */
+  --color-accent: #f97316; /* メインアクセント（ボタン・アクティブ状態） */
+  --color-accent-hover: #ea6c0a; /* アクセントホバー */
+  --color-accent-light: #fef0e6; /* アクセント薄め（バッジ背景など） */
+  /* 優先度カラー */
+  --color-priority-high: #ef4444; /* 優先度：高（赤） */
+  --color-priority-medium: #f97316; /* 優先度：中（オレンジ＝アクセントと統一） */
+  --color-priority-low: #9ca3af; /* 優先度：低（グレー） */
+  /* 完了状態 */
+  --color-done: #9ca3af; /* 完了タスクのテキスト色（グレーアウト） */
+  /* シャドウ */
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* フォント指定 */
+  --font-sans: "BIZ UDPGothic", "Hiragino Sans", "Meiryo", sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace; /* タイマー表示用 */
+
+  /* フォントのスタイル */
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* 余白サイズ */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+
+  /* ボーダー・角丸 */
+  --radius-sm: 4px; /* バッジ・タグ */
+  --radius-md: 8px; /* ボタン・入力フォーム・カード */
+  --radius-lg: 12px; /* モーダル */
+  --radius-full: 9999px; /* 丸ボタン・アバター */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
 html {
@@ -21,20 +75,12 @@ body {
 }
 
 body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+  background: var(--color-bg);
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  line-height: 1.8;
+  color: var(--color-text-primary);
 }
 
 a {
@@ -42,8 +88,30 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+img {
+  width: 100%;
+  height: auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
 }
