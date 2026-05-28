@@ -5,7 +5,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ export default function Login() {
     });
 
     if (error) {
-      setError('メールアドレスかパスワードが違います')
+      setError('メールアドレスかパスワードが違います');
     } else {
       router.push('/');
     }
