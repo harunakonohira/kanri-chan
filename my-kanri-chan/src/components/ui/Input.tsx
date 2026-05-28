@@ -4,17 +4,18 @@ type InputProps = {
   id?: string;
   type: string;
   name: string;
-  defaultValue?: string;
+  value?: string;
   placeholder?: string;
   required?: boolean;
   pattern?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 export default function Input({
   id = '',
   type,
   name,
-  defaultValue = '',
+  value = '',
   placeholder = '',
   ...restOfProps
 }: InputProps) {
@@ -24,7 +25,7 @@ export default function Input({
       id={id}
       type={type}
       name={name}
-      defaultValue={defaultValue}
+      value={value}
       placeholder={placeholder}
       {...restOfProps}
     />
