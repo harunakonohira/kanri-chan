@@ -23,6 +23,15 @@
   font-size: 22px;
 }
 
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .error {
   color: var( --color-priority-high);
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: calc(100% + 8px);
 }
