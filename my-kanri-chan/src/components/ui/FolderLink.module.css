@@ -1,0 +1,21 @@
+.folder a {
+  width: 100%;
+  display: block;
+  color: var(--color-text-secondary);
+  padding: 8px 12px 8px 28px;
+  line-height: 1;
+  position: relative;
+}
+
+.folder a::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background-color: var(--color-text-secondary);
+  /* background-color: var(--folder-color); */
+}
