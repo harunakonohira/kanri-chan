@@ -49,8 +49,10 @@ export default function Login() {
           onChange={(e) => setPassword(e.target.value)}
           id='your-password'
         />
-        <Button text='ログイン'></Button>
-        {error && <p className={styles.error}>{error}</p>}
+        <div className={styles.wrapper}>
+          <Button text='ログイン'></Button>
+          {error && <p className={styles.error}>{error}</p>}
+        </div>
       </form>
     </div>
   );
