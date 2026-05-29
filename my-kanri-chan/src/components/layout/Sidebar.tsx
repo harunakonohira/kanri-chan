@@ -1,8 +1,10 @@
 'use client';
 
 import styles from './Sidebar.module.css';
-import Link from 'next/link';
 import Button from '@/components/ui/Button';
+import PageLink from '../ui/PageLink';
+import FolderLink from '../ui/FolderLink';
+import AddList from '../ui/AddList';
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
@@ -26,45 +28,25 @@ export default function Sidebar() {
           <p>わたしの管理ちゃん</p>
         </div>
         <ul className={styles.pages}>
-          <li className={`${styles.page} ${styles.active}`}>
-            <Link href=''>今後7日間</Link>
-          </li>
-          <li className={styles.page}>
-            <Link href=''>受信トレイ</Link>
-          </li>
-          <li className={styles.page}>
-            <Link href=''>カレンダー</Link>
-          </li>
+          <PageLink href='#' text='今後7日間' />
+          <PageLink href='#' text='受信トレイ' />
+          <PageLink href='#' text='カレンダー' />
         </ul>
         <div className={styles.divider}></div>
         <div className={styles.lists}>
           <ul className={styles.folders}>
-            <li className={styles.folder}>
-              <Link href=''>転職準備</Link>
-            </li>
-            <li className={styles.folder}>
-              <Link href=''>デイトラ</Link>
-            </li>
-            <li className={styles.folder}>
-              <Link href=''>読書</Link>
-            </li>
+            <FolderLink href='#' text='転職準備' />
+            <FolderLink href='#' text='学習' />
+            <FolderLink href='#' text='読書' />
           </ul>
-          <div className={styles.add}>
-            <Link href=''>＋ リストを追加</Link>
-          </div>
+          <AddList href='#' text='＋ リストを追加' />
         </div>
       </div>
       <div>
         <ul className={styles.pages}>
-          <li className={styles.page}>
-            <Link href=''>タイマー</Link>
-          </li>
-          <li className={styles.page}>
-            <Link href=''>レポート</Link>
-          </li>
-          <li className={styles.page}>
-            <Link href=''>設定</Link>
-          </li>
+          <PageLink href='#' text='タイマー' />
+          <PageLink href='#' text='レポート' />
+          <PageLink href='#' text='設定' />
         </ul>
         <div className={styles.logout}>
           <Button text='ログアウト' onClick={handleLogout}></Button>
