@@ -21,12 +21,12 @@ export default function Sidebar() {
   };
   return (
     <div className={styles.sidebar}>
-      <div className='top'>
-        <div className='title'>
+      <div>
+        <div className={styles.title}>
           <p>わたしの管理ちゃん</p>
         </div>
         <ul className={styles.pages}>
-          <li className={styles.page}>
+          <li className={`${styles.page} ${styles.active}`}>
             <Link href=''>今後7日間</Link>
           </li>
           <li className={styles.page}>
@@ -40,13 +40,13 @@ export default function Sidebar() {
         <div className={styles.lists}>
           <ul className={styles.folders}>
             <li className={styles.folder}>
-              <Link href=''>受信トレイ</Link>
+              <Link href=''>転職準備</Link>
             </li>
             <li className={styles.folder}>
-              <Link href=''>受信トレイ</Link>
+              <Link href=''>デイトラ</Link>
             </li>
             <li className={styles.folder}>
-              <Link href=''>受信トレイ</Link>
+              <Link href=''>読書</Link>
             </li>
           </ul>
           <div className={styles.add}>
@@ -54,19 +54,19 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-      <div className='bottom'>
-        <ul>
-          <li>
+      <div>
+        <ul className={styles.pages}>
+          <li className={styles.page}>
             <Link href=''>タイマー</Link>
           </li>
-          <li>
+          <li className={styles.page}>
             <Link href=''>レポート</Link>
           </li>
-          <li>
+          <li className={styles.page}>
             <Link href=''>設定</Link>
           </li>
         </ul>
-        <div className='logout'>
+        <div className={styles.logout}>
           <Button text='ログアウト' onClick={handleLogout}></Button>
           {error && <p className={styles.error}>{error}</p>}
         </div>
