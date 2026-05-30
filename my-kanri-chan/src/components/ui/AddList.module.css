@@ -1,4 +1,6 @@
 .add {
   padding-block: 8px;
   color: var(--color-accent);
+  border: none;
+  background-color: transparent;
 }
