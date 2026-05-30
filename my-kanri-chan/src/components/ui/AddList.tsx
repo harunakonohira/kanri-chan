@@ -1,15 +1,14 @@
 import styles from './AddList.module.css';
-import Link from 'next/link';
 
 type AddListProps = {
-  href: string;
   text: string;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 };
 
-export default function AddList({ href, text }: AddListProps) {
+export default function AddList({ text, ...restOfProps}: AddListProps) {
   return (
-    <div className={styles.add}>
-      <Link href={href}>{text}</Link>
-    </div>
+    <button type='button' className={styles.add} {...restOfProps}>
+      {text}
+    </button>
   );
 }
