@@ -9,11 +9,16 @@ type ModalProps = {
   text: string;
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
+  buttonText: string;
+  onSubmit?: (name: string, color: string) => void;
+  initialName?: string;
+  initialColor?: string;
 };
 
-export default function Modal({ text, isOpen, onClose }: ModalProps) {
-  const [folder, setFolder] = useState('');
-  const [color, setColor] = useState('');
+export default function Modal({ text, isOpen, onClose, onSuccess, buttonText, onSubmit, initialName = '', initialColor = '' }: ModalProps) {
+  const [folder, setFolder] = useState(initialName);
+  const [color, setColor] = useState(initialColor);
   const [error, setError] = useState('');
 
   async function getUserId() {
@@ -27,11 +32,7 @@ export default function Modal({ text, isOpen, onClose }: ModalProps) {
     }
   }
 
-  const addFolder = async () => {
-    console.log('addFolder called');
-    console.log('folder:', folder);
-    console.log('color:', color);
-
+  const addFolder = async (name: string, color: string) => {
     if (folder === '') {
       setError('フォルダ名を入力してください');
       return;
@@ -40,13 +41,15 @@ export default function Modal({ text, isOpen, onClose }: ModalProps) {
 
     const { error } = await supabase
       .from('lists')
-      .insert([{ user_id: await getUserId(), name: folder, color: color, position: 0 }]);
-    console.log('error:', error);
-    console.log('insert done');
+      .insert([
+        { user_id: await getUserId(), name: name, color: color, position: 0 },
+      ]);
+
     if (error) {
       return;
     }
     onClose();
+    onSuccess();
   };
 
   if (!isOpen) return null;
@@ -57,7 +60,7 @@ export default function Modal({ text, isOpen, onClose }: ModalProps) {
         <div className={styles.row}>
           <Input
             type='text'
-            name='folder'
+            name='name'
             value={folder}
             id='name'
             onChange={(e) => setFolder(e.target.value)}
@@ -71,13 +74,13 @@ export default function Modal({ text, isOpen, onClose }: ModalProps) {
             id='color'
             value={color}
             onChange={(e) => setColor(e.target.value)}
-            placeholder='フォルダ名'
+            placeholder=''
           />
         </div>
         {error && <p className={styles.error}>{error}</p>}
         <div className={styles.buttons}>
           <ButtonWhite text='キャンセル' onClick={onClose} />
-          <Button text='追加' onClick={addFolder} />
+          <Button text={buttonText} onClick={() => onSubmit ? onSubmit(folder, color) : addFolder(folder, color)} />
         </div>
       </div>
     </div>
