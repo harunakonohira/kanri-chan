@@ -9,9 +9,10 @@ type ModalProps = {
   text: string;
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 };
 
-export default function Modal({ text, isOpen, onClose }: ModalProps) {
+export default function Modal({ text, isOpen, onClose, onSuccess }: ModalProps) {
   const [folder, setFolder] = useState('');
   const [color, setColor] = useState('');
   const [error, setError] = useState('');
@@ -28,10 +29,6 @@ export default function Modal({ text, isOpen, onClose }: ModalProps) {
   }
 
   const addFolder = async () => {
-    console.log('addFolder called');
-    console.log('folder:', folder);
-    console.log('color:', color);
-
     if (folder === '') {
       setError('フォルダ名を入力してください');
       return;
@@ -40,13 +37,15 @@ export default function Modal({ text, isOpen, onClose }: ModalProps) {
 
     const { error } = await supabase
       .from('lists')
-      .insert([{ user_id: await getUserId(), name: folder, color: color, position: 0 }]);
-    console.log('error:', error);
-    console.log('insert done');
+      .insert([
+        { user_id: await getUserId(), name: folder, color: color, position: 0 },
+      ]);
+
     if (error) {
       return;
     }
     onClose();
+    onSuccess();
   };
 
   if (!isOpen) return null;

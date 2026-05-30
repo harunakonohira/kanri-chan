@@ -16,6 +16,5 @@
   width: 8px;
   height: 8px;
   border-radius: 99px;
-  background-color: var(--color-text-secondary);
-  /* background-color: var(--folder-color); */
+  background-color: var(--folder-color);
 }

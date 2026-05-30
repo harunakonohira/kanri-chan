@@ -6,7 +6,7 @@ import PageLink from '../ui/PageLink';
 import FolderLink from '../ui/FolderLink';
 import AddList from '../ui/AddList';
 import Modal from '../ui/Modal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
@@ -21,10 +21,24 @@ export default function Sidebar() {
       router.push('/login');
     }
   };
+
   const [isOpen, setIsOpen] = useState(false);
   const showModal = () => {
     setIsOpen(!isOpen);
   };
+
+  const [lists, setLists] = useState<
+    { id: string; name: string; color: string }[]
+  >([]);
+  const getList = async () => {
+    const { data } = await supabase.from('lists').select('id, name, color');
+    setLists(data ?? []);
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
   return (
     <>
       <div className={styles.sidebar}>
@@ -40,9 +54,16 @@ export default function Sidebar() {
           <div className={styles.divider}></div>
           <div className={styles.lists}>
             <ul className={styles.folders}>
-              <FolderLink href='#' text='転職準備' />
-              <FolderLink href='#' text='学習' />
-              <FolderLink href='#' text='読書' />
+              {lists.map((list) => {
+                return (
+                  <FolderLink
+                    key={list.id}
+                    href=''
+                    text={list.name}
+                    color={list.color}
+                  />
+                );
+              })}
             </ul>
             <AddList text='+ フォルダを追加' onClick={showModal} />
           </div>
@@ -59,7 +80,12 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-      <Modal text='新規フォルダ作成' isOpen={isOpen} onClose={() => setIsOpen(false)} />
+      <Modal
+        text='新規フォルダ作成'
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        onSuccess={getList}
+      />
     </>
   );
 }
