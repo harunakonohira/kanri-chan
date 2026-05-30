@@ -9,6 +9,7 @@ type InputProps = {
   required?: boolean;
   pattern?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  ref?: React.Ref<HTMLInputElement>;
 };
 
 export default function Input({
