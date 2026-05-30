@@ -6,7 +6,7 @@ import PageLink from '../ui/PageLink';
 import FolderLink from '../ui/FolderLink';
 import AddList from '../ui/AddList';
 import Modal from '../ui/Modal';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 
@@ -30,14 +30,15 @@ export default function Sidebar() {
   const [lists, setLists] = useState<
     { id: string; name: string; color: string }[]
   >([]);
-  const getList = async () => {
+  const getList = useCallback(async () => {
     const { data } = await supabase.from('lists').select('id, name, color');
     setLists(data ?? []);
-  };
+  }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getList();
-  }, []);
+  }, [getList]);
 
   return (
     <>
@@ -58,7 +59,7 @@ export default function Sidebar() {
                 return (
                   <FolderLink
                     key={list.id}
-                    href=''
+                    href={`/list/${list.id}`}
                     text={list.name}
                     color={list.color}
                   />
@@ -85,6 +86,7 @@ export default function Sidebar() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         onSuccess={getList}
+        buttonText='追加する'
       />
     </>
   );
