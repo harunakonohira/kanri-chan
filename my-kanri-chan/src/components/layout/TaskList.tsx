@@ -6,6 +6,7 @@ import TaskModal from '@/components/ui/TaskModal';
 import Button from '@/components/ui/Button';
 import { useState, useEffect, useCallback } from 'react';
 import { supabase } from '@/lib/supabase';
+import Task from '../ui/Task';
 
 type TaskListProps = {
   listId?: string | null;
@@ -50,11 +51,15 @@ export default function TaskList({ listId }: TaskListProps) {
     <div className={styles.tasks}>
       <div className={styles.tasksWrapper}>
         {tasks.map((task) => {
-          return(
-            <div className={styles.task} key={task.id}>
-              <p className="">{task.title}</p>
-              <p className="">{task.due_date}</p>
-            </div>
+          return (
+            <Task
+              key={task.id}
+              taskId={task.id}
+              taskTitle={task.title}
+              taskDate={task.due_date}
+              taskPriority={task.priority}
+              onSuccess={getTask}
+            />
           );
         })}
       </div>
