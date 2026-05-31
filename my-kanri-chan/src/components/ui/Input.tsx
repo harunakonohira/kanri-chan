@@ -10,6 +10,7 @@ type InputProps = {
   pattern?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   ref?: React.Ref<HTMLInputElement>;
+  checked?: boolean;
 };
 
 export default function Input({

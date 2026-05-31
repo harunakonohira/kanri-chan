@@ -4,17 +4,65 @@
 import styles from './TaskList.module.css';
 import TaskModal from '@/components/ui/TaskModal';
 import Button from '@/components/ui/Button';
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { supabase } from '@/lib/supabase';
+import Task from '../ui/Task';
 
-export default function TaskList() {
+type TaskListProps = {
+  listId?: string | null;
+};
+
+export default function TaskList({ listId }: TaskListProps) {
   const [isOpen, setIsOpen] = useState(false);
   const showTaskModal = () => {
     setIsOpen(!isOpen);
   };
 
+  const [tasks, setTasks] = useState<
+    {
+      id: string;
+      list_id: string | null;
+      title: string;
+      due_date: string | null;
+      priority: string | null;
+      is_done: boolean;
+    }[]
+  >([]);
+
+  const getTask = useCallback(async () => {
+    let query = supabase
+      .from('tasks')
+      .select('id, list_id, title, due_date, priority, is_done');
+
+    if (listId) {
+      query = query.eq('list_id', listId);
+    }
+
+    const { data } = await query;
+    setTasks(data ?? []);
+  }, [listId]);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    getTask();
+  }, [getTask]);
+
   return (
     <div className={styles.tasks}>
-      <div className={styles.tasksWrapper}></div>
+      <div className={styles.tasksWrapper}>
+        {tasks.map((task) => {
+          return (
+            <Task
+              key={task.id}
+              taskId={task.id}
+              taskTitle={task.title}
+              taskDate={task.due_date}
+              taskPriority={task.priority}
+              onSuccess={getTask}
+            />
+          );
+        })}
+      </div>
       <div className={styles.taskButton}>
         <Button text='+ タスクを追加' onClick={showTaskModal}></Button>
       </div>
@@ -23,6 +71,7 @@ export default function TaskList() {
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         buttonText='登録する'
+        onSuccess={getTask}
       />
     </div>
   );

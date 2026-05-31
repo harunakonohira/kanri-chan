@@ -13,6 +13,12 @@ type TaskModalProps = {
   buttonText: string;
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
+  initialTitle?: string;
+  initialDate?: string;
+  initialListId?: string;
+  initialPriority?: string;
+  taskId?: string;
 };
 
 export default function TaskModal({
@@ -20,6 +26,12 @@ export default function TaskModal({
   buttonText,
   isOpen,
   onClose,
+  onSuccess,
+  initialTitle = '',
+  initialDate = '',
+  initialListId = '',
+  initialPriority = '',
+  taskId = '',
 }: TaskModalProps) {
   const [title, setTitle] = useState('');
   const [listId, setListId] = useState('');
@@ -46,36 +58,46 @@ export default function TaskModal({
     setLists(data ?? []);
   }, []);
 
-  const addTask = async () => {
-    if (title === '') {
-      setError('タイトルを入力してください');
-      return;
+const saveTask = async () => {
+  if (title === '') {
+    setError('タイトルを入力してください');
+    return;
+  }
+  setError('');
+
+  if (taskId) {
+    await supabase
+      .from('tasks')
+      .update({ title, due_date: dueDate, priority, list_id: listId || null })
+      .eq('id', taskId);
+  } else {
+    await supabase.from('tasks').insert([{
+      user_id: await getUserId(),
+      list_id: listId || null,
+      title,
+      due_date: dueDate,
+      priority,
+      is_done: false,
+    }]);
+  }
+
+  onClose();
+  onSuccess?.();
+};
+
+  useEffect(() => {
+    if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setTitle(initialTitle);
+      setDueDate(initialDate);
+      setListId(initialListId);
+      setPriority(initialPriority);
     }
-    setError('');
-
-    const { error } = await supabase.from('tasks').insert([
-      {
-        user_id: await getUserId(),
-        list_id: listId || null,
-        title: title,
-        due_date: dueDate,
-        priority: priority,
-        is_done: false,
-      },
-    ]);
-    console.log('error:', error);
-
-    if (error) {
-      return;
-    }
-    onClose();
-  };
-
+  }, [isOpen, initialTitle, initialDate, initialListId, initialPriority]);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     getList();
   }, [getList]);
-
   if (!isOpen) return null;
   return (
     <div className={styles.background}>
@@ -123,6 +145,7 @@ export default function TaskModal({
                 type='radio'
                 name='priority'
                 value='high'
+                checked={priority === 'high'}
                 id='name'
                 onChange={(e) => setPriority(e.target.value)}
               />
@@ -133,6 +156,7 @@ export default function TaskModal({
                 type='radio'
                 name='priority'
                 value='medium'
+                checked={priority === 'medium'}
                 id='name'
                 onChange={(e) => setPriority(e.target.value)}
               />
@@ -143,6 +167,7 @@ export default function TaskModal({
                 type='radio'
                 name='priority'
                 value='low'
+                checked={priority === 'low'}
                 id='name'
                 onChange={(e) => setPriority(e.target.value)}
               />
@@ -152,7 +177,7 @@ export default function TaskModal({
         </div>
         <div className={styles.buttons}>
           <ButtonWhite text='キャンセル' onClick={onClose} />
-          <Button text={buttonText} onClick={addTask} />
+          <Button text={buttonText} onClick={saveTask} />
         </div>
       </div>
     </div>
