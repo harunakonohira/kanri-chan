@@ -13,6 +13,7 @@ type TaskModalProps = {
   buttonText: string;
   isOpen: boolean;
   onClose: () => void;
+  onSuccess: () => void;
 };
 
 export default function TaskModal({
@@ -20,6 +21,7 @@ export default function TaskModal({
   buttonText,
   isOpen,
   onClose,
+  onSuccess,
 }: TaskModalProps) {
   const [title, setTitle] = useState('');
   const [listId, setListId] = useState('');
@@ -69,6 +71,7 @@ export default function TaskModal({
       return;
     }
     onClose();
+    onSuccess();
   };
 
   useEffect(() => {
