@@ -1,0 +1,17 @@
+.tasks {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.tasksWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.taskButton {
+  width: fit-content;
+}
