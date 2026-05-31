@@ -81,8 +81,6 @@ const saveTask = async () => {
     }]);
   }
 
-  console.log('taskId:', taskId);
-
   onClose();
   onSuccess?.();
 };
