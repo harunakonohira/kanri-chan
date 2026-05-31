@@ -49,7 +49,7 @@ export default function Sidebar() {
           </div>
           <ul className={styles.pages}>
             <PageLink href='#' text='今後7日間' />
-            <PageLink href='#' text='受信トレイ' />
+            <PageLink href='#' text='未分類タスク' />
             <PageLink href='#' text='カレンダー' />
           </ul>
           <div className={styles.divider}></div>
