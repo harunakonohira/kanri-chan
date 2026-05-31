@@ -48,8 +48,8 @@ export default function Sidebar() {
             <p>わたしの管理ちゃん</p>
           </div>
           <ul className={styles.pages}>
-            <PageLink href='#' text='今後7日間' />
-            <PageLink href='#' text='未分類タスク' />
+            <PageLink href='/' text='今後7日間' />
+            <PageLink href='/unclassified' text='未分類タスク' />
             <PageLink href='#' text='カレンダー' />
           </ul>
           <div className={styles.divider}></div>

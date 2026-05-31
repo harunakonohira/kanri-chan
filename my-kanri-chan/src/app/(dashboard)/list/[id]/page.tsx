@@ -1,6 +1,7 @@
 import styles from '@/app/(dashboard)/dashboard.module.css';
 import { createClient } from '@/lib/supabase-server';
 import ListAction from './ListAction';
+import TaskList from '@/components/layout/TaskList';
 
 type ListProps = {
   params: Promise<{ id: string }>;
@@ -22,6 +23,7 @@ export default async function List({ params }: ListProps) {
           color={data?.[0]?.color ?? ''}
         />
       </div>
+      <TaskList />
     </div>
   );
 }
