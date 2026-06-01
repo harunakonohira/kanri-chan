@@ -14,9 +14,42 @@
   gap: 16px;
 }
 
+.taskCheck {
+  display: flex;
+  align-items: center;
+}
+
+.taskCheck input[type='checkbox'].checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-border);
+  border-radius: 2px;
+  cursor: pointer;
+  position: relative;
+  margin: 0;
+
+  &:checked {
+    background-color: var(--color-accent);
+    border: 2px solid var(--color-accent);
+    outline: none;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
 .taskEdit {
   background-color: transparent;
   border: none;
   width: 20px;
   height: 20px;
+}
+
+.done {
+  text-decoration: line-through;
+  color: var(--color-done);
 }

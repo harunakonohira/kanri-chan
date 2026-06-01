@@ -8,6 +8,7 @@ type TaskProps = {
   taskTitle: string | null;
   taskDate: string | null;
   taskPriority: string | null;
+  taskIsDone: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   onSuccess: () => void;
   initialTitle?: string;
@@ -21,6 +22,7 @@ export default function Task({
   taskTitle,
   taskDate,
   taskPriority,
+  taskIsDone,
   onSuccess,
   initialTitle = '',
   initialDate = '',
@@ -40,6 +42,13 @@ export default function Task({
     await supabase.from('tasks').delete().eq('id', taskId);
     onSuccess();
   };
+  const toggleDone = async () => {
+    await supabase
+      .from('tasks')
+      .update({ is_done: !taskIsDone })
+      .eq('id', taskId);
+    onSuccess();
+  };
   useEffect(() => {
     if (isOpen) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -53,9 +62,18 @@ export default function Task({
     <>
       <div className={styles.task} key={taskId}>
         <div className={styles.taskBlock}>
-          <div className={styles.taskCheck}></div>
+          <div className={styles.taskCheck}>
+            <input
+              className={styles.checkbox}
+              type='checkbox'
+              name=''
+              id=''
+              checked={taskIsDone}
+              onChange={toggleDone}
+            />
+          </div>
           <div className={styles.taskFolder}></div>
-          <p className=''>{taskTitle}</p>
+          <p className={taskIsDone ? styles.done : ''}>{taskTitle}</p>
         </div>
         <div className={styles.taskBlock}>
           <div className={styles.taskPriority}>{taskPriority}</div>
