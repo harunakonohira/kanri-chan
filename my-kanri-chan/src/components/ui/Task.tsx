@@ -1,5 +1,6 @@
 import styles from './Task.module.css';
 import TaskModal from './TaskModal';
+import PriorityBadge from './PriorityBadge';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -76,7 +77,7 @@ export default function Task({
           <p className={taskIsDone ? styles.done : ''}>{taskTitle}</p>
         </div>
         <div className={styles.taskBlock}>
-          <div className={styles.taskPriority}>{taskPriority}</div>
+          <PriorityBadge priority={taskPriority} />
           <p className=''>{taskDate}</p>
           <button className={styles.taskEdit} onClick={onEdit}>
             <svg

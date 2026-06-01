@@ -1,0 +1,23 @@
+.badge {
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-weight: 700;
+  font-size: 14px;
+  width: 32px;
+  text-align: center;
+}
+
+.high {
+  background-color: #FEE2E2;
+  color: #EF4444;
+}
+
+.medium {
+  background-color: #FEF0E6;
+  color: #F97316;
+}
+
+.low {
+  background-color: #F3F4F6;
+  color: #9CA3AF;
+}
