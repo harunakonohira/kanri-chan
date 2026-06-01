@@ -74,7 +74,6 @@ export default function Task({
               onChange={toggleDone}
             />
           </div>
-          <div className={styles.taskFolder}></div>
           <p className={taskIsDone ? styles.done : ''}>{taskTitle}</p>
         </div>
         <div className={styles.taskBlock}>

@@ -13,6 +13,7 @@ type TaskListProps = {
 
 export default function TaskList({ listId }: TaskListProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showDone, setShowDone] = useState(false);
   const showTaskModal = () => {
     setIsOpen(!isOpen);
   };
@@ -63,20 +64,32 @@ export default function TaskList({ listId }: TaskListProps) {
 
   return (
     <div className={styles.tasks}>
+      <div className={styles.done}>
+        <label>
+          <input
+            type='checkbox'
+            checked={showDone}
+            onChange={() => setShowDone(!showDone)}
+          />
+          完了済みタスクを表示
+        </label>
+      </div>
       <div className={styles.tasksWrapper}>
-        {tasks.map((task) => {
-          return (
-            <Task
-              key={task.id}
-              taskId={task.id}
-              taskTitle={task.title}
-              taskDate={task.due_date}
-              taskPriority={task.priority}
-              onSuccess={getTask}
-              taskIsDone={task.is_done}
-            />
-          );
-        })}
+        {tasks
+          .filter((task) => showDone || !task.is_done)
+          .map((task) => {
+            return (
+              <Task
+                key={task.id}
+                taskId={task.id}
+                taskTitle={task.title}
+                taskDate={task.due_date}
+                taskPriority={task.priority}
+                onSuccess={getTask}
+                taskIsDone={task.is_done}
+              />
+            );
+          })}
       </div>
       <div className={styles.taskButton}>
         <Button text='+ タスクを追加' onClick={showTaskModal}></Button>
