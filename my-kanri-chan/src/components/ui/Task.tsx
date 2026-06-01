@@ -31,6 +31,8 @@ export default function Task({
   initialPriority = '',
   ...restOfProps
 }: TaskProps) {
+  const todayStr = new Date().toISOString().split('T')[0];
+  const isOverdue = taskDate ? taskDate < todayStr : false;
   const [isOpen, setIsOpen] = useState(false);
   const onEdit = () => {
     setIsOpen(!isOpen);
@@ -78,7 +80,7 @@ export default function Task({
         </div>
         <div className={styles.taskBlock}>
           <PriorityBadge priority={taskPriority} />
-          <p className=''>{formattedDate}</p>
+          <p className={isOverdue && !taskIsDone ? styles.overdue : ''}>{formattedDate}</p>
           <button className={styles.taskEdit} onClick={onEdit}>
             <svg
               width='24'

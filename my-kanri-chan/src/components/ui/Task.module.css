@@ -53,3 +53,7 @@
   text-decoration: line-through;
   color: var(--color-done);
 }
+
+.overdue {
+  color: var(--color-priority-high);
+}
