@@ -43,6 +43,7 @@ export default function Task({
     await supabase.from('tasks').delete().eq('id', taskId);
     onSuccess();
   };
+  const formattedDate = taskDate ? taskDate.split('-').slice(1).join('/') : '';
   const toggleDone = async () => {
     await supabase
       .from('tasks')
@@ -78,7 +79,7 @@ export default function Task({
         </div>
         <div className={styles.taskBlock}>
           <PriorityBadge priority={taskPriority} />
-          <p className=''>{taskDate}</p>
+          <p className=''>{formattedDate}</p>
           <button className={styles.taskEdit} onClick={onEdit}>
             <svg
               width='24'
