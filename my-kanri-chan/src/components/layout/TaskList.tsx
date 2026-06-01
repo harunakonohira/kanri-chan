@@ -1,6 +1,5 @@
 'use client';
 
-// import Image from "next/image";
 import styles from './TaskList.module.css';
 import TaskModal from '@/components/ui/TaskModal';
 import Button from '@/components/ui/Button';
@@ -14,6 +13,7 @@ type TaskListProps = {
 
 export default function TaskList({ listId }: TaskListProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [showDone, setShowDone] = useState(false);
   const showTaskModal = () => {
     setIsOpen(!isOpen);
   };
@@ -29,17 +29,32 @@ export default function TaskList({ listId }: TaskListProps) {
     }[]
   >([]);
 
+  const priorityOrder: { [key: string]: number } = {
+    high: 0,
+    medium: 1,
+    low: 2,
+  };
+
   const getTask = useCallback(async () => {
     let query = supabase
       .from('tasks')
-      .select('id, list_id, title, due_date, priority, is_done');
+      .select('id, list_id, title, due_date, priority, is_done')
+      .order('due_date', { ascending: true });
 
     if (listId) {
       query = query.eq('list_id', listId);
     }
 
     const { data } = await query;
-    setTasks(data ?? []);
+    const sorted = (data ?? []).sort((a, b) => {
+      if (a.due_date !== b.due_date) {
+        return (a.due_date ?? '').localeCompare(b.due_date ?? '');
+      }
+      return (
+        priorityOrder[a.priority ?? 'low'] - priorityOrder[b.priority ?? 'low']
+      );
+    });
+    setTasks(sorted);
   }, [listId]);
 
   useEffect(() => {
@@ -49,20 +64,32 @@ export default function TaskList({ listId }: TaskListProps) {
 
   return (
     <div className={styles.tasks}>
+      <div className={styles.done}>
+        <label>
+          <input
+            type='checkbox'
+            checked={showDone}
+            onChange={() => setShowDone(!showDone)}
+          />
+          完了済みタスクを表示
+        </label>
+      </div>
       <div className={styles.tasksWrapper}>
-        {tasks.map((task) => {
-          return (
-            <Task
-              key={task.id}
-              taskId={task.id}
-              taskTitle={task.title}
-              taskDate={task.due_date}
-              taskPriority={task.priority}
-              onSuccess={getTask}
-              taskIsDone={task.is_done}
-            />
-          );
-        })}
+        {tasks
+          .filter((task) => showDone || !task.is_done)
+          .map((task) => {
+            return (
+              <Task
+                key={task.id}
+                taskId={task.id}
+                taskTitle={task.title}
+                taskDate={task.due_date}
+                taskPriority={task.priority}
+                onSuccess={getTask}
+                taskIsDone={task.is_done}
+              />
+            );
+          })}
       </div>
       <div className={styles.taskButton}>
         <Button text='+ タスクを追加' onClick={showTaskModal}></Button>

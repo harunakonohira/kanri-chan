@@ -1,5 +1,6 @@
 import styles from './Task.module.css';
 import TaskModal from './TaskModal';
+import PriorityBadge from './PriorityBadge';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -42,6 +43,7 @@ export default function Task({
     await supabase.from('tasks').delete().eq('id', taskId);
     onSuccess();
   };
+  const formattedDate = taskDate ? taskDate.split('-').slice(1).join('/') : '';
   const toggleDone = async () => {
     await supabase
       .from('tasks')
@@ -72,12 +74,11 @@ export default function Task({
               onChange={toggleDone}
             />
           </div>
-          <div className={styles.taskFolder}></div>
           <p className={taskIsDone ? styles.done : ''}>{taskTitle}</p>
         </div>
         <div className={styles.taskBlock}>
-          <div className={styles.taskPriority}>{taskPriority}</div>
-          <p className=''>{taskDate}</p>
+          <PriorityBadge priority={taskPriority} />
+          <p className=''>{formattedDate}</p>
           <button className={styles.taskEdit} onClick={onEdit}>
             <svg
               width='24'
