@@ -59,6 +59,7 @@ export default function TaskList({ listId }: TaskListProps) {
               taskDate={task.due_date}
               taskPriority={task.priority}
               onSuccess={getTask}
+              taskIsDone={task.is_done}
             />
           );
         })}
