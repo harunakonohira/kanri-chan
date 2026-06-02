@@ -1,17 +1,42 @@
 'use client';
 
 import styles from '../dashboard.module.css';
+import Button from '@/components/ui/Button';
+import ButtonWhite from '@/components/ui/ButtonWhite';
 import { useState, useEffect } from 'react';
 import { getTasks } from '@/lib/getTask';
 
 export default function Calender() {
   const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
+  const [year, setYear] = useState(today.getFullYear());
+  const [month, setMonth] = useState(today.getMonth() + 1);
   const daysInMonth = new Date(year, month, 0).getDate();
   const firstDay = (new Date(year, month - 1, 1).getDay() + 6) % 7;
   const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
   const blanks = Array.from({ length: firstDay }, (_, i) => i);
+
+  const prevMonth = () => {
+    if (month === 1) {
+      setYear(year - 1);
+      setMonth(12);
+    } else {
+      setMonth(month - 1);
+    }
+  };
+
+  const goToday = () => {
+    setYear(today.getFullYear());
+    setMonth(today.getMonth() + 1);
+  };
+
+  const nextMonth = () => {
+    if (month === 12) {
+      setYear(year + 1);
+      setMonth(1);
+    } else {
+      setMonth(month + 1);
+    }
+  };
 
   const [tasks, setTasks] = useState<
     {
@@ -39,6 +64,11 @@ export default function Calender() {
         <h1 className={styles.pageTitle}>
           {year}年{month}月
         </h1>
+        <div className={styles.moveButtons}>
+          <Button text='前月' onClick={prevMonth} />
+          <ButtonWhite text='今日' onClick={goToday} />
+          <Button text='翌月' onClick={nextMonth} />
+        </div>
       </div>
       <div className={styles.calenderWrap}>
         <div className={styles.calendarGridHead}>
