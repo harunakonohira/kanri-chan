@@ -6,7 +6,7 @@ const priorityOrder: { [key: string]: number } = {
   low: 2,
 };
 
-export async function getTasks(listId?: string | null, weekOnly?: boolean) {
+export async function getTasks(listId?: string | null, weekOnly?: boolean, unclassified?: boolean) {
   let query = supabase
     .from('tasks')
     .select('id, list_id, title, due_date, priority, is_done')
@@ -22,6 +22,10 @@ export async function getTasks(listId?: string | null, weekOnly?: boolean) {
     weekLater.setDate(today.getDate() + 7);
     const weekLaterStr = weekLater.toISOString().split('T')[0];
     query = query.lte('due_date', weekLaterStr);
+  }
+
+  if(unclassified) {
+    query = query.is('list_id', null)
   }
 
   const { data } = await query;

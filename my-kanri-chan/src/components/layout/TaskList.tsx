@@ -9,10 +9,11 @@ import { getTasks } from '@/lib/getTask';
 
 type TaskListProps = {
   listId?: string | null;
-  weekOnly?: boolean
+  weekOnly?: boolean;
+  unclassified?: boolean;
 };
 
-export default function TaskList({ listId, weekOnly }: TaskListProps) {
+export default function TaskList({ listId, weekOnly, unclassified }: TaskListProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showDone, setShowDone] = useState(false);
   const showTaskModal = () => {
@@ -31,36 +32,14 @@ export default function TaskList({ listId, weekOnly }: TaskListProps) {
   >([]);
 
   const loadTasks = useCallback(async () => {
-    const data = await getTasks(listId, weekOnly);
+    const data = await getTasks(listId, weekOnly, unclassified);
     setTasks(data);
-  }, [listId, weekOnly]);
+  }, [listId, weekOnly, unclassified]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     loadTasks();
   }, [loadTasks]);
-
-  // const getTask = useCallback(async () => {
-  //   let query = supabase
-  //     .from('tasks')
-  //     .select('id, list_id, title, due_date, priority, is_done')
-  //     .order('due_date', { ascending: true });
-
-  //   if (listId) {
-  //     query = query.eq('list_id', listId);
-  //   }
-
-  //   const { data } = await query;
-  //   const sorted = (data ?? []).sort((a, b) => {
-  //     if (a.due_date !== b.due_date) {
-  //       return (a.due_date ?? '').localeCompare(b.due_date ?? '');
-  //     }
-  //     return (
-  //       priorityOrder[a.priority ?? 'low'] - priorityOrder[b.priority ?? 'low']
-  //     );
-  //   });
-  //   setTasks(sorted);
-  // }, [listId]);
 
   return (
     <div className={styles.tasks}>
