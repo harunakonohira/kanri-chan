@@ -23,7 +23,7 @@ export default async function List({ params }: ListProps) {
           color={data?.[0]?.color ?? ''}
         />
       </div>
-      <TaskList />
+      <TaskList listId={id} />
     </div>
   );
 }

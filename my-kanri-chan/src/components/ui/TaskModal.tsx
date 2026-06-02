@@ -68,14 +68,14 @@ const saveTask = async () => {
   if (taskId) {
     await supabase
       .from('tasks')
-      .update({ title, due_date: dueDate, priority, list_id: listId || null })
+      .update({ title, due_date: dueDate || null, priority, list_id: listId || null })
       .eq('id', taskId);
   } else {
     await supabase.from('tasks').insert([{
       user_id: await getUserId(),
       list_id: listId || null,
       title,
-      due_date: dueDate,
+      due_date: dueDate || null,
       priority,
       is_done: false,
     }]);

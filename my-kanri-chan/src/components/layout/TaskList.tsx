@@ -79,6 +79,7 @@ export default function TaskList({ listId, weekOnly, unclassified }: TaskListPro
         onClose={() => setIsOpen(false)}
         buttonText='登録する'
         onSuccess={loadTasks}
+        initialListId={listId ?? ''}
       />
     </div>
   );
