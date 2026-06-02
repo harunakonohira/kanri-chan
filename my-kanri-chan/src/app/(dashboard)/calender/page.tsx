@@ -21,6 +21,7 @@ export default function Calender() {
       due_date: string | null;
       priority: string | null;
       is_done: boolean;
+      lists: { color: string }[] | null;
     }[]
   >([]);
 
@@ -34,27 +35,51 @@ export default function Calender() {
 
   return (
     <div className={styles.dashboard}>
-      <p>{year}</p>
-      <p>{month}</p>
-      <div className={styles.calendarGrid}>
-        {blanks.map((b) => (
-          <div key={`blank-${b}`} className={styles.dayCell}></div>
-        ))}
-        {days.map((day) => {
-          const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-          const dayTasks = tasks.filter((task) => task.due_date === dateStr);
+      <div className={styles.listTitle}>
+        <h1 className={styles.pageTitle}>
+          {year}年{month}月
+        </h1>
+      </div>
+      <div className={styles.calenderWrap}>
+        <div className={styles.calendarGridHead}>
+          <div className={styles.dayCellHead}>月</div>
+          <div className={styles.dayCellHead}>火</div>
+          <div className={styles.dayCellHead}>水</div>
+          <div className={styles.dayCellHead}>木</div>
+          <div className={styles.dayCellHead}>金</div>
+          <div className={styles.dayCellHead}>土</div>
+          <div className={styles.dayCellHead}>日</div>
+        </div>
+        <div className={styles.calendarGrid}>
+          {blanks.map((b) => (
+            <div key={`blank-${b}`} className={styles.dayCell}></div>
+          ))}
+          {days.map((day) => {
+            const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+            const dayTasks = tasks.filter((task) => task.due_date === dateStr);
 
-          return (
-            <div key={day} className={styles.dayCell}>
-              <div>{day}</div>
-              {dayTasks.map((task) => (
-                <div key={task.id} className={styles.taskChip}>
-                  {task.title}
-                </div>
-              ))}
-            </div>
-          );
-        })}
+            return (
+              <div key={day} className={styles.dayCell}>
+                <div>{day}</div>
+                {dayTasks.map((task) => {
+                  return (
+                    <div key={task.id} className={styles.taskChip}>
+                      <div
+                        className={styles.chipColor}
+                        style={{
+                          backgroundColor:
+                            (task.lists as { color: string } | null)?.color ??
+                            '#F97316',
+                        }}
+                      ></div>
+                      <p className={styles.taskTitle}>{task.title}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

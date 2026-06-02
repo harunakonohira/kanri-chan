@@ -21,13 +21,54 @@
   gap: 32px;
 }
 
-.calendarGrid {
+.calenderWrap {
+  height: 100%;
+  border-top: 1px solid var(--color-border);
+  border-left: 1px solid var(--color-border);
+}
+
+.calendarGrid,
+.calendarGridHead {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
 
-.dayCell {
-  border: 1px solid var(--color-border);
-  min-height: 80px;
+.calendarGrid {
+  height: calc(100% - 40px);
+}
+
+.dayCellHead {
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  background-color: var(--color-border);
   padding: 4px;
+  text-align: center;
+}
+
+.dayCell {
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  padding: 8px;
+  height: auto;
+}
+
+.chipColor {
+  width: 14px;
+  height: 14px;
+}
+
+.taskChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.taskTitle {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
 }
