@@ -21,6 +21,11 @@
   gap: 32px;
 }
 
+.moveButtons {
+  display: flex;
+  gap: 8px;
+}
+
 .calenderWrap {
   height: 100%;
   border-top: 1px solid var(--color-border);
