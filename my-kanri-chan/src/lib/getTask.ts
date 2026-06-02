@@ -9,7 +9,7 @@ const priorityOrder: { [key: string]: number } = {
 export async function getTasks(listId?: string | null, weekOnly?: boolean, unclassified?: boolean) {
   let query = supabase
     .from('tasks')
-    .select('id, list_id, title, due_date, priority, is_done')
+    .select('id, list_id, title, due_date, priority, is_done, lists(color)')
     .order('due_date', { ascending: true });
 
   if (listId) {
