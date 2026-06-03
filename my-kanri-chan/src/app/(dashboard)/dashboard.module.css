@@ -1,7 +1,7 @@
 .dashboard {
   width: 100%;
-  height: 100%;
-  max-height: 100vh;
+  height: 100vh;
+  max-height: calc(100vh - 40px);
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -76,4 +76,67 @@
   overflow: hidden;
   text-overflow: ellipsis;
   flex: 1;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding-block: 40px;
+}
+
+.timer .stopwatch {
+  font-family: var(--font-mono);
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.timer .timerButtons {
+  display: flex;
+  gap: 24px;
+  width: 280px;
+}
+
+.timer .reportLink {
+  color: var(--color-accent);
+}
+
+.timer .reportLink:hover {
+  opacity: 0.8;
+}
+
+.today {
+  margin-top: 24px;
+  display: flex;
+  overflow-y: hidden;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+
+}
+
+.today .todayTitle {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.today .todayReports {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 16px;
+}
+
+.today .reportsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.today .rowTime {
+  color: #757575;
 }

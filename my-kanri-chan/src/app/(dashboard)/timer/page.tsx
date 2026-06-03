@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 import { getTasks } from '@/lib/getTask';
 import Button from '@/components/ui/Button';
+import ButtonWhite from '@/components/ui/ButtonWhite';
 import Select from '@/components/ui/Select';
 
 export default function Timer() {
@@ -29,6 +30,13 @@ export default function Timer() {
     const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
     const s = String(totalSeconds % 60).padStart(2, '0');
     return `${h}:${m}:${s}`;
+  };
+
+    const formatReportTime = (totalSeconds: number) => {
+    const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
+    const m = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+    const s = String(totalSeconds % 60).padStart(2, '0');
+    return `${h}時間 ${m}分 ${s}秒`;
   };
 
   const [tasks, setTasks] = useState<
@@ -117,7 +125,7 @@ export default function Timer() {
         <div className={styles.stopwatch}>{formatTime(seconds)}</div>
         <div className={styles.timerButtons}>
           <Button text='スタート' onClick={() => setIsRunning(true)} />
-          <Button text='ストップ' onClick={saveRecord} />
+          <ButtonWhite text='ストップ' onClick={saveRecord} />
         </div>
         <div className={styles.reportLink}>
           <Link href='/report'>レポートを見る →</Link>
@@ -132,7 +140,7 @@ export default function Timer() {
                 {(record.tasks as { title: string } | null)?.title ?? '未設定'}
               </div>
               <div className={styles.rowTime}>
-                {formatTime(record.duration_seconds)}
+                {formatReportTime(record.duration_seconds)}
               </div>
             </div>
           ))}
