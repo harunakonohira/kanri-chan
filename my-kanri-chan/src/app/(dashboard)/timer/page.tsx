@@ -3,6 +3,7 @@
 import styles from '../dashboard.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { getTasks } from '@/lib/getTask';
 import Button from '@/components/ui/Button';
 import Select from '@/components/ui/Select';
@@ -11,6 +12,17 @@ export default function Timer() {
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState('');
+
+  async function getUserId() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user) {
+      const userId = user.id;
+      return userId;
+    }
+  }
 
   const formatTime = (totalSeconds: number) => {
     const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
@@ -48,6 +60,16 @@ export default function Timer() {
     return () => clearInterval(intervalId);
   }, [isRunning]);
 
+  const saveRecord = async () => {
+    setIsRunning(false);
+    await supabase.from('time_records').insert({
+      user_id: await getUserId(),
+      task_id: selectedTaskId,
+      duration_seconds: seconds,
+    });
+    setSeconds(0);
+  };
+
   return (
     <div className={styles.dashboard}>
       <div className={styles.listTitle}>
@@ -70,7 +92,7 @@ export default function Timer() {
         <div className={styles.stopwatch}>{formatTime(seconds)}</div>
         <div className={styles.timerButtons}>
           <Button text='スタート' onClick={() => setIsRunning(true)} />
-          <Button text='ストップ' onClick={() => setIsRunning(false)} />
+          <Button text='ストップ' onClick={saveRecord} />
         </div>
         <div className={styles.reportLink}>
           <Link href='/report'>レポートを見る →</Link>
