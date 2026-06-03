@@ -68,7 +68,32 @@ export default function Timer() {
       duration_seconds: seconds,
     });
     setSeconds(0);
+    loadReport();
   };
+
+  const [report, setReport] = useState<
+    {
+      id: string;
+      task_id: string;
+      duration_seconds: number;
+      tasks: { title: string }[] | null;
+    }[]
+  >([]);
+
+  const loadReport = async () => {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+
+    const { data } = await supabase
+      .from('time_records')
+      .select('id, task_id, duration_seconds, tasks(title)')
+      .gte('created_at', todayStart.toISOString());
+    setReport(data ?? []);
+  };
+
+  useEffect(() => {
+    loadReport();
+  }, []);
 
   return (
     <div className={styles.dashboard}>
@@ -101,10 +126,16 @@ export default function Timer() {
       <div className={styles.today}>
         <div className={styles.todayTitle}>本日の記録</div>
         <div className={styles.todayReports}>
-          <div className={styles.reportsRow}>
-            <div className={styles.rowTitle}></div>
-            <div className={styles.rowTime}></div>
-          </div>
+          {report.map((record) => (
+            <div key={record.id} className={styles.reportsRow}>
+              <div className={styles.rowTitle}>
+                {(record.tasks as { title: string } | null)?.title ?? '未設定'}
+              </div>
+              <div className={styles.rowTime}>
+                {formatTime(record.duration_seconds)}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
