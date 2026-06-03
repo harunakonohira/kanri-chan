@@ -58,32 +58,39 @@ export default function TaskModal({
     setLists(data ?? []);
   }, []);
 
-const saveTask = async () => {
-  if (title === '') {
-    setError('タイトルを入力してください');
-    return;
-  }
-  setError('');
+  const saveTask = async () => {
+    if (title === '') {
+      setError('タイトルを入力してください');
+      return;
+    }
+    setError('');
 
-  if (taskId) {
-    await supabase
-      .from('tasks')
-      .update({ title, due_date: dueDate || null, priority, list_id: listId || null })
-      .eq('id', taskId);
-  } else {
-    await supabase.from('tasks').insert([{
-      user_id: await getUserId(),
-      list_id: listId || null,
-      title,
-      due_date: dueDate || null,
-      priority,
-      is_done: false,
-    }]);
-  }
+    if (taskId) {
+      await supabase
+        .from('tasks')
+        .update({
+          title,
+          due_date: dueDate || null,
+          priority,
+          list_id: listId || null,
+        })
+        .eq('id', taskId);
+    } else {
+      await supabase.from('tasks').insert([
+        {
+          user_id: await getUserId(),
+          list_id: listId || null,
+          title,
+          due_date: dueDate || null,
+          priority,
+          is_done: false,
+        },
+      ]);
+    }
 
-  onClose();
-  onSuccess?.();
-};
+    onClose();
+    onSuccess?.();
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -117,6 +124,7 @@ const saveTask = async () => {
           <div className={styles.rowTitle}>フォルダ</div>
           <div className={styles.selectWrapper}>
             <Select
+              first='未分類'
               name='list_id'
               id='listId'
               value={listId}

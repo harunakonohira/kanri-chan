@@ -3,11 +3,14 @@
 import styles from '../dashboard.module.css';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { getTasks } from '@/lib/getTask';
 import Button from '@/components/ui/Button';
+import Select from '@/components/ui/Select';
 
 export default function Timer() {
   const [seconds, setSeconds] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState('');
 
   const formatTime = (totalSeconds: number) => {
     const h = String(Math.floor(totalSeconds / 3600)).padStart(2, '0');
@@ -15,6 +18,25 @@ export default function Timer() {
     const s = String(totalSeconds % 60).padStart(2, '0');
     return `${h}:${m}:${s}`;
   };
+
+  const [tasks, setTasks] = useState<
+    {
+      id: string;
+      list_id: string | null;
+      title: string;
+      due_date: string | null;
+      priority: string | null;
+      is_done: boolean;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    const load = async () => {
+      const data = await getTasks();
+      setTasks(data);
+    };
+    load();
+  }, []);
 
   useEffect(() => {
     if (!isRunning) return;
@@ -31,7 +53,19 @@ export default function Timer() {
       <div className={styles.listTitle}>
         <h1 className={styles.pageTitle}>タイマー</h1>
       </div>
-      <div className={styles.selectTask}></div>
+      <div className={styles.selectTask}>
+        <Select
+          first='タスクを選択'
+          name='task'
+          id='task'
+          value={selectedTaskId}
+          onChange={(e) => setSelectedTaskId(e.target.value)}
+          options={tasks.map((task) => ({
+            value: task.id,
+            label: task.title,
+          }))}
+        />
+      </div>
       <div className={styles.timer}>
         <div className={styles.stopwatch}>{formatTime(seconds)}</div>
         <div className={styles.timerButtons}>
