@@ -52,6 +52,22 @@ export default function Report() {
   }, []);
   const weekTotal = chartData.reduce((sum, item) => sum + item.minutes, 0);
   const todayTotal = chartData[chartData.length - 1]?.minutes ?? 0;
+
+  const formatMinutes = (minutes: number) => {
+    const h = Math.floor(minutes / 60);
+    const m = minutes % 60;
+    if (h === 0) {
+      return `${m}分`;
+    }
+    return `${h}時間${m}分`;
+  };
+
+  {
+    formatMinutes(todayTotal);
+  }
+  {
+    formatMinutes(weekTotal);
+  }
   return (
     <div className={styles.dashboard}>
       <div className={styles.listTitle}>
