@@ -1,7 +1,15 @@
 'use client';
 
 import styles from '../dashboard.module.css';
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  ResponsiveContainer,
+  Tooltip,
+  CartesianGrid,
+} from 'recharts';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
@@ -31,29 +39,48 @@ export default function Report() {
       for (let i = 6; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
-        last7Days.push(d.toISOString().split('T')[0]); // '2026-06-17' 形式
+        last7Days.push(d.toISOString().split('T')[0]);
       }
 
       const newChartData = last7Days.map((date) => ({
         date: date.split('-').slice(1).join('/'),
-        minutes: Math.floor((totals[date] ?? 0) / 60), // なければ0
+        minutes: Math.floor((totals[date] ?? 0) / 60),
       }));
       setChartData(newChartData);
-      
     };
     load();
   }, []);
+  const weekTotal = chartData.reduce((sum, item) => sum + item.minutes, 0);
+  const todayTotal = chartData[chartData.length - 1]?.minutes ?? 0;
   return (
     <div className={styles.dashboard}>
       <div className={styles.listTitle}>
         <h1 className={styles.pageTitle}>レポート</h1>
       </div>
+      <div className={styles.summary}>
+        <div className={styles.summaryCard}>
+          <p className={styles.summaryLabel}>今日の合計</p>
+          <p className={styles.summaryValue}>
+            {todayTotal}
+            <span>分</span>
+          </p>
+        </div>
+        <div className={styles.summaryCard}>
+          <p className={styles.summaryLabel}>過去7日間の合計</p>
+          <p className={styles.summaryValue}>
+            {weekTotal}
+            <span>分</span>
+          </p>
+        </div>
+      </div>
       <div className={styles.chartArea}>
         <ResponsiveContainer width='100%' height={300}>
           <BarChart data={chartData}>
+            <CartesianGrid strokeDasharray='3 3' />
             <XAxis dataKey='date' />
             <YAxis />
-            <Bar dataKey='minutes' fill='#F97316' />
+            <Tooltip />
+            <Bar dataKey='minutes' fill='#F97316' name='稼働時間(分)' />
           </BarChart>
         </ResponsiveContainer>
       </div>
