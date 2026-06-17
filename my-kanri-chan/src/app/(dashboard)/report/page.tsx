@@ -27,11 +27,19 @@ export default function Report() {
         totals[date] = (totals[date] ?? 0) + record.duration_seconds;
       });
 
-      const newChartData = Object.keys(totals).map((date) => ({
+      const last7Days: string[] = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        last7Days.push(d.toISOString().split('T')[0]); // '2026-06-17' 形式
+      }
+
+      const newChartData = last7Days.map((date) => ({
         date: date.split('-').slice(1).join('/'),
-        minutes: Math.floor(totals[date] / 60),
+        minutes: Math.floor((totals[date] ?? 0) / 60), // なければ0
       }));
       setChartData(newChartData);
+      
     };
     load();
   }, []);
