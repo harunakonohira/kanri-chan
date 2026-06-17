@@ -56,18 +56,12 @@ export default function Report() {
   const formatMinutes = (minutes: number) => {
     const h = Math.floor(minutes / 60);
     const m = minutes % 60;
-    if (h === 0) {
-      return `${m}分`;
-    }
-    return `${h}時間${m}分`;
+    return { h, m };
   };
 
-  {
-    formatMinutes(todayTotal);
-  }
-  {
-    formatMinutes(weekTotal);
-  }
+  const today = formatMinutes(todayTotal);
+  const week = formatMinutes(weekTotal);
+
   return (
     <div className={styles.dashboard}>
       <div className={styles.listTitle}>
@@ -77,14 +71,26 @@ export default function Report() {
         <div className={styles.summaryCard}>
           <p className={styles.summaryLabel}>今日の合計</p>
           <p className={styles.summaryValue}>
-            {todayTotal}
+            {today.h > 0 && (
+              <>
+                {today.h}
+                <span>時間</span>
+              </>
+            )}
+            {today.m}
             <span>分</span>
           </p>
         </div>
         <div className={styles.summaryCard}>
           <p className={styles.summaryLabel}>過去7日間の合計</p>
           <p className={styles.summaryValue}>
-            {weekTotal}
+            {week.h > 0 && (
+              <>
+                {week.h}
+                <span>時間</span>
+              </>
+            )}
+            {week.m}
             <span>分</span>
           </p>
         </div>
