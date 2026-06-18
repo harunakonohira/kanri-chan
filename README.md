@@ -1,8 +1,9 @@
 # わたしの管理ちゃん
 最小限の機能を持つタスク管理アプリです。
-🔗 デモ: https://kanri-chan.vercel.app
+デモ: https://kanri-chan.vercel.app
 メールアドレス：sample@sample.com
 パスワード：sample
+GitHub：https://github.com/harunakonohira/kanri-chan
 
 ## 概要
 わたしが使いたい機能を盛り込んだタスク管理アプリで、わたし専用です。わたしの自主制作第1号です。
@@ -51,3 +52,9 @@
 できるだけ同じコードは何回も書かないということはWebサイト制作（主にWordPressサイトのPHP）から鍛え上げてきたので、そういった共通点を見出せたのも嬉しかったです。
 
 ## スクリーンショット
+<img alt="Image" src="https://github.com/user-attachments/assets/f9a0589a-c6b5-4770-8b08-b95e9f3f21b2" />
+<img alt="Image" src="https://github.com/user-attachments/assets/f2d4fd1f-98ab-41dd-8a63-7696e815023d" />
+<img alt="Image" src="https://github.com/user-attachments/assets/1c3ab5ec-137a-4a12-ba96-2b76507168e5" />
+<img alt="Image" src="https://github.com/user-attachments/assets/12614665-2b1b-402f-af07-020c99de0d3a" />
+<img alt="Image" src="https://github.com/user-attachments/assets/f6962a3c-f92e-429a-9f74-388793c1adf1" />
+<img alt="Image" src="https://github.com/user-attachments/assets/3916d694-088c-48d7-9366-168bf996aabd" />
