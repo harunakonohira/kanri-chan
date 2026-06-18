@@ -1,11 +1,15 @@
 'use client';
 
 import styles from '../dashboard.module.css';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
 
 export default function Settings() {
   const [userEmail, setUserEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   async function getUserEmail() {
     const {
@@ -26,6 +30,16 @@ export default function Settings() {
     load();
   }, []);
 
+  const updateUserPassword = async () => {
+  const { error } = await supabase.auth.updateUser({ password: newPassword });
+  if (error) {
+    setMessage('変更に失敗しました');
+  } else {
+    setMessage('パスワードを変更しました');
+    setNewPassword('');
+  }
+};
+
   return (
     <div className={styles.dashboard}>
       <div className={styles.listTitle}>
@@ -34,6 +48,18 @@ export default function Settings() {
       <div className={styles.settingRow}>
         <p className={styles.settingLabel}>メールアドレス</p>
         <p className={styles.settingValue}>{userEmail}</p>
+      </div>
+      <div className={styles.settingRow}>
+        <p className={styles.settingLabel}>新しいパスワード</p>
+        <Input
+          type='password'
+          name='password'
+          value={newPassword}
+          onChange={(e) => setNewPassword(e.target.value)}
+          placeholder='新しいパスワード'
+        />
+        <Button text='変更する' onClick={updateUserPassword} />
+        {message && <p className={styles.message}>{message}</p>}
       </div>
     </div>
   );
