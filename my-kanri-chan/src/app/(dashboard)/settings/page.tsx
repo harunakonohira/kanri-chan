@@ -31,35 +31,43 @@ export default function Settings() {
   }, []);
 
   const updateUserPassword = async () => {
-  const { error } = await supabase.auth.updateUser({ password: newPassword });
-  if (error) {
-    setMessage('変更に失敗しました');
-  } else {
-    setMessage('パスワードを変更しました');
-    setNewPassword('');
-  }
-};
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) {
+      setMessage('変更に失敗しました');
+    } else {
+      setMessage('パスワードを変更しました');
+      setNewPassword('');
+    }
+  };
 
   return (
     <div className={styles.dashboard}>
       <div className={styles.listTitle}>
         <h1 className={styles.pageTitle}>設定</h1>
       </div>
-      <div className={styles.settingRow}>
-        <p className={styles.settingLabel}>メールアドレス</p>
-        <p className={styles.settingValue}>{userEmail}</p>
-      </div>
-      <div className={styles.settingRow}>
-        <p className={styles.settingLabel}>新しいパスワード</p>
-        <Input
-          type='password'
-          name='password'
-          value={newPassword}
-          onChange={(e) => setNewPassword(e.target.value)}
-          placeholder='新しいパスワード'
-        />
-        <Button text='変更する' onClick={updateUserPassword} />
-        {message && <p className={styles.message}>{message}</p>}
+      <div className={styles.settings}>
+        <div className={styles.settingRow}>
+          <p className={styles.settingLabel}>メールアドレス</p>
+          <p className={styles.settingValue}>{userEmail}</p>
+        </div>
+        <div className={styles.settingRow}>
+          <p className={styles.settingLabel}>パスワードの変更</p>
+          <div className={styles.passwordWrapper}>
+            <div className={styles.passwordInput}>
+              <Input
+                type='password'
+                name='password'
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder='新しいパスワード'
+              />
+            </div>
+            <div className={styles.passwordButton}>
+              <Button text='変更する' onClick={updateUserPassword} />
+            </div>
+          </div>
+          {message && <p className={styles.message}>{message}</p>}
+        </div>
       </div>
     </div>
   );
