@@ -3,15 +3,22 @@
   display: block;
   color: var(--color-text-secondary);
   padding: 8px 12px 8px 32px;
-  line-height: 1;
+  line-height: 1.5;
   position: relative;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  align-self: stretch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 36px;
 }
 
 .folder a::before {
   content: '';
   position: absolute;
   left: 12px;
-  top: 50%;
+  top: 54%;
   transform: translateY(-50%);
   width: 12px;
   height: 12px;
