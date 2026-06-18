@@ -73,7 +73,7 @@ export default function Sidebar() {
           <ul className={styles.pages}>
             <PageLink href='/timer' text='タイマー' />
             <PageLink href='/report' text='レポート' />
-            <PageLink href='/setting' text='設定' />
+            <PageLink href='/settings' text='設定' />
           </ul>
           <div className={styles.logout}>
             <Button text='ログアウト' onClick={handleLogout}></Button>
