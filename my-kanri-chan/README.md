@@ -1,36 +1,53 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# わたしの管理ちゃん
+最小限の機能を持つタスク管理アプリです。
+🔗 デモ: https://kanri-chan.vercel.app
+メールアドレス：sample@sample.com
+パスワード：sample
 
-## Getting Started
+## 概要
+わたしが使いたい機能を盛り込んだタスク管理アプリで、わたし専用です。わたしの自主制作第1号です。
+とにかく気が散らないように、できるだけシンプルになるように設計しました。頑張った時間が可視化されるのが嬉しいと感じる人間なので、タスクの管理と時間の記録に焦点をあてました。
+シンプルを目指す中でも唯一遊んだのは時間記録後に表示されるポップアップです。10種類のテンション上げ女の子ポップアップを用意してランダムで表示されるようにしています。この女の子が管理ちゃんかもしれません。
 
-First, run the development server:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 主な機能
+- タスク管理(作成・編集・削除・完了・優先度・締切）
+- フォルダ分け
+- ビュー(今後7日間・未分類・カレンダー)
+- ストップウォッチタイマー＋記録
+- 活動レポート(グラフ)
+- 認証(ログイン・ログアウト)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 使用技術
+- Next.js 16 (App Router)
+- TypeScript
+- Supabase (認証・DB)
+- Vercel (デプロイ)
+- Recharts (グラフ)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 工夫した点
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 何を入れるか、何を入れないか
+よく使用しているアプリで困ったのが「使わない機能が多い」「使いたい部分が有料」の2点でした。有料でも使いたいので使っていましたが、いつしか「自分で作ればいいのでは？」と思うようになっていました。
+タスクを登録できる、それをフォルダに分類できる、カレンダーでタスクの期限が見られる、タスクにかかった時間を可視化できる、直近でやるべきタスクが上から順番に表示される、これだけ使えたら満足でした。
+シンプルに使いたい機能だけ入っているアプリは今まで出会ってこなかったので今回作れたことによりわたしは大変満足感がありました。嬉しいので積極的に使っています。
+例えば、手動でリスト表示の順番を入れ替えられるという機能は入れませんでした。期限と優先順位によって自動で並ぶため入らない要素だと判断しました。また、ユーザー登録に関しては、わたし専用に作ったのでできない仕様になっています。
+今後もし広めたい気持ちになったら改めてそこを調整していくと良いのかなと思っています。
 
-## Learn More
+### AIにすぐ答えを言わせない
+昨今、CodexやClaude Codeなどで簡単にバイブコーディングができるようになり、AIも賢くなっているため少し尋ねるとすぐ答えを言うようになってきています。
+そこで、Claudeのチャットで上司として振る舞うように指定し、できるだけ答えを言わないようにさせました。困った時にも調べる方法のヒントだけ言うように教え、最終的にわたしが出した答えについてのみフィードバックさせるというような使い方をしました。
+企業の中で働くことを想定して上司と新入社員としての関係性を作ることで、わたし自身が成長できる設定にある程度できたのかなと思います。
+その甲斐あってか、useStateやPropsは何回も何回も自分で書いたので分かるようになってきたと実感しています。自分で考えて自分だけで書くというのはまだ厳しいですが、書いたコードがどういう意味かは概ね把握できるようになりました。
 
-To learn more about Next.js, take a look at the following resources:
+### CSSでの細かい調整
+今までフリーランスとして3年半ほどWebサイト制作者をやってきたので、見た目に関してはとても気になる性分であり見た目の調整も時間をかけました。
+「ここはもしかしたら文字量が多い時にこうなるかもしれない」「100vhに収まってないとなんだかアプリっぽくない」といったところはこだわって調整しています。
+「こうしたら表示崩れが発生しうる」という、Webサイト制作をしてきたからこその見た目へのこだわりは今回は諦めずに実装しました。
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 取得するロジックの共通化
+コンポーネントの概念がよく分かってきたので、ほとんど同じロジックを使用しているのにページが違うだけでほんのわずかに書き換えが発生する場面で、ロジックのみの共通化も行いました。
+管理ちゃんでは頻発のタスクを取得するというロジックで、さまざまなページで必要でした。しかし、どのページも同じところからほとんど同じ情報を持ってきているので「これはまとめたい」という発想に至り、getTask.tsというファイルを作成し共通化しました。
+できるだけ同じコードは何回も書かないということはWebサイト制作（主にWordPressサイトのPHP）から鍛え上げてきたので、そういった共通点を見出せたのも嬉しかったです。
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## スクリーンショット
