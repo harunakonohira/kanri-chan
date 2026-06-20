@@ -50,14 +50,19 @@ export default function Timer() {
       due_date: string | null;
       priority: string | null;
       is_done: boolean;
+      lists: { color: string }[] | null;
     }[]
   >([]);
 
-  useEffect(() => {
+useEffect(() => {
     const load = async () => {
       const data = await getTasks();
-      const notDoneTasks = data.filter((task) => task.is_done === false);
-      setTasks(notDoneTasks);
+      const visibleTasks = data.filter((task) => {
+        if (task.is_done === true) return false;
+        if (task.list_id !== null && (!task.lists || task.lists.length === 0)) return false;
+        return true;
+      });
+      setTasks(visibleTasks);
     };
     load();
   }, []);
