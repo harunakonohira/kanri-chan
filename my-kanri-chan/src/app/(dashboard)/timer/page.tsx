@@ -56,7 +56,8 @@ export default function Timer() {
   useEffect(() => {
     const load = async () => {
       const data = await getTasks();
-      setTasks(data);
+      const notDoneTasks = data.filter((task) => task.is_done === false);
+      setTasks(notDoneTasks);
     };
     load();
   }, []);
