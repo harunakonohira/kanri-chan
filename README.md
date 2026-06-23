@@ -1,8 +1,6 @@
 # わたしの管理ちゃん
 最小限の機能を持つタスク管理アプリです。
 デモ: https://kanri-chan.vercel.app
-メールアドレス：sample@sample.com
-パスワード：sample
 GitHub：https://github.com/harunakonohira/kanri-chan
 
 ## 概要
